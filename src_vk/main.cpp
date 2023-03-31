@@ -9,4 +9,3 @@ int main() {
     return 0;
 }
 
-int hello(int a, int b) {}
