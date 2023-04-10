@@ -13,3 +13,4 @@ cmake -G "Unix Makefiles" -B ./build && cmake --build ./build
 
 ./build/bin/vk-test_physx
 ./build/bin/vk-test_vk
+./build/bin/vk-test_sdl

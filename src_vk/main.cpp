@@ -8,8 +8,10 @@
 
 #include "HelloTriangleApplication.h"
 
+
 int main() {
     HelloTriangleApplication app;
+
 
     try {
         app.run();
