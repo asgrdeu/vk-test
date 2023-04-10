@@ -1,8 +1,8 @@
 #include "HelloTriangleApplication.h"
 
 void HelloTriangleApplication::run() {
-
-};
+    
+}
 
 void HelloTriangleApplication::initVulkan() {
 
