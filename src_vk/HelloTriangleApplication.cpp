@@ -7,6 +7,10 @@ void HelloTriangleApplication::run() {
     this->cleanup();
 }
 
+void HelloTriangleApplication::initWindow() {
+    
+}
+
 void HelloTriangleApplication::initVulkan() {
 
 }
