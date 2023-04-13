@@ -1,12 +1,10 @@
-#include <SDL3/SDL.h>
-#include <SDL3/SDL_events.h>
-#include <SDL3/SDL_surface.h>
-#include <SDL3/SDL_video.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_video.h>
 #include <stdio.h>
 
 //Screen dimension constants
-const int WINDOW_WIDTH = 640;
-const int WINDOW_HEIGHT = 480;
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
 
 int main( int argc, char* args[] )
 {
@@ -23,7 +21,7 @@ int main( int argc, char* args[] )
     }else
     {
         //Create window
-        window = SDL_CreateWindow( "Snake 2023", WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
+        window = SDL_CreateWindow( "Snake 2023", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
         if( window == NULL )
         {
             printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -33,13 +31,13 @@ int main( int argc, char* args[] )
             screenSurface = SDL_GetWindowSurface( window );
 
             //Fill the surface white
-            SDL_FillSurfaceRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
+            SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
             
             //Update the surface
             SDL_UpdateWindowSurface( window );
 
             //Hack to get window to stay up
-            SDL_Event e; bool quit = false; while( quit == false ){ while( SDL_PollEvent( &e ) ){ if( e.type == SDL_EVENT_QUIT ) quit = true; } }
+            SDL_Event e; bool quit = false; while( quit == false ){ while( SDL_PollEvent( &e ) ){ if( e.type == SDL_QUIT ) quit = true; } }
         }
     }//Destroy window
     SDL_DestroyWindow( window );
