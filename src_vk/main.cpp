@@ -1,11 +1,25 @@
-#include <iostream>
+#include <exception>
+#include <iterator>
+//#include <vulkan/vulkan.h>
 
-int sum(int a, int b) {
-    return a + b;
-}
+#include <iostream>
+#include <stdexcept>
+#include <cstdlib>
+
+#include "HelloTriangleApplication.h"
+
 
 int main() {
-    std::cout << sum(1, 2) << std::endl;
-    return 0;
+    HelloTriangleApplication app;
+
+
+    try {
+        app.run();
+    } catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
 }
 
