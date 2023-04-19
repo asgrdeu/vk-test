@@ -7,7 +7,8 @@ else
     mkdir build
 fi
 
-cmake -G "Unix Makefiles" -B ./build && cmake --build ./build
+cmake -G "Unix Makefiles" -B ./build -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cmake --build ./build
+
 
 #-D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
 
