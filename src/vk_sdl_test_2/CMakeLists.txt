@@ -2,6 +2,8 @@ set(SOURCE_FILES main.cpp)
 
 set(PROJECT_NAME ${PROJECT_NAME}_vk_sdl_test_2)
 
+set(CMAKE_CONFIGURATION_TYPES Debug)
+
 # Vulkan
 find_package(Vulkan)
 
