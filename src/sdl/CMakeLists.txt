@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-set(SOURCE_FILES main.cpp vk_extern.cpp vk_extern.h vk_function.cpp vk_function.h)
-=======
 set(SOURCE_FILES main.cpp)
 
->>>>>>> 7df74fa79c48ad1b32326e4a9f5dbbfcb807e581
 set(PROJECT_NAME ${PROJECT_NAME}_sdl)
 # set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall")
 # set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Wall")
