@@ -1,7 +1,12 @@
 #include <iostream>
 using namespace std;
 
+#if defined (_WIN32)
+#include <SDL.h>
+#else  
 #include <SDL2/SDL.h>
+#endif
+
 SDL_Window *window;
 char* window_name = "example SDL2 Vulkan application";
 

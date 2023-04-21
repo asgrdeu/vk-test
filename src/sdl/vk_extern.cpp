@@ -1,4 +1,6 @@
 #include "vk_extern.h"
+#include <string>
+#include <vulkan/vulkan_core.h>
 
 void init_vulkan_extern(Vulkan *vulkan)
 {
@@ -42,7 +44,11 @@ Vulkan::~Vulkan()
 ////////////////////////////////////////////////////
 ///////             [Core]
 //////////////////////////////////////////
+#if defined (_WIN32)
+#include <SDL.h>
+#else  
 #include <SDL2/SDL.h>
+#endif
 #include <SDL_vulkan.h>
 //#include <SDL2/SDL_Vulkan.h>
 
@@ -97,13 +103,14 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL VulkanReportFunc(
 PFN_vkCreateDebugReportCallbackEXT SDL2_vkCreateDebugReportCallbackEXT = nullptr;
 void Vulkan::Create_Debug()
 {
-    //PFN_vkCreateDebugReportCallbackEXT SDL2_vkCreateDebugReportCallbackEXT = reinterpret_cast<PFN_vkCreateDebugReportCallbackEXT>(vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT"));
-    SDL2_vkCreateDebugReportCallbackEXT = (PFN_vkCreateDebugReportCallbackEXT)SDL_Vulkan_GetVkGetInstanceProcAddr();
+    SDL2_vkCreateDebugReportCallbackEXT = reinterpret_cast<PFN_vkCreateDebugReportCallbackEXT>(vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT"));
+    //SDL2_vkCreateDebugReportCallbackEXT = (PFN_vkCreateDebugReportCallbackEXT)SDL_Vulkan_GetVkGetInstanceProcAddr();
 
     VkDebugReportCallbackCreateInfoEXT debugCallbackCreateInfo = {};
     debugCallbackCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
-    debugCallbackCreateInfo.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT;
+    debugCallbackCreateInfo.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT | VK_DEBUG_REPORT_OBJECT_TYPE_INSTANCE_EXT;
     debugCallbackCreateInfo.pfnCallback = VulkanReportFunc;
+
 
     SDL2_vkCreateDebugReportCallbackEXT(instance, &debugCallbackCreateInfo, 0, &debugCallback);
 }
@@ -234,12 +241,12 @@ bool Vulkan::Create_Swapchain(bool resize)
         cout << "format: " + to_string(format.format) + " colorSpace: " + to_string(format.colorSpace) << endl;
     }
 
-    if(surfaceFormats[1].format != VK_FORMAT_B8G8R8A8_UNORM)
+    if(surfaceFormats[0].format != VK_FORMAT_B8G8R8A8_UNORM)
 	{
         throw std::runtime_error("surfaceFormats[0].format != VK_FORMAT_B8G8R8A8_UNORM");
 	}
 
-    surfaceFormat = surfaceFormats[1];
+    surfaceFormat = surfaceFormats[0];
     int width,height = 0;
     SDL_Vulkan_GetDrawableSize(window, &width, &height);
     width = CLAMP(width, surfaceCapabilities.minImageExtent.width, surfaceCapabilities.maxImageExtent.width);
