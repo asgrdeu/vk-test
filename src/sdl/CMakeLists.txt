@@ -1,4 +1,4 @@
-set(SOURCE_FILES main.cpp vk_extern.cpp vk_extern.h vk_function.cpp vk_function.h)
+set(SOURCE_FILES main.cpp)
 
 set(PROJECT_NAME ${PROJECT_NAME}_sdl)
 
@@ -26,4 +26,4 @@ endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2)
 
 # Vulkan
-target_link_libraries(${PROJECT_NAME} PRIVATE vulkan)
+target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
