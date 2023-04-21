@@ -10,7 +10,7 @@ include_directories(${Vulkan_INCLUDE_DIRS})
 link_directories(${Vulkan_INCLUDE_DIRS})
 
 if (WIN32)
-    find_package(SDL2 REQUIRED CONFIG COMPONENTS SDL2main)
+    find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2::SDL2main)
 endif()
 
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
