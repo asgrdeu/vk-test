@@ -1,49 +1,58 @@
-#include "SDL.h"
-#include "SDL_video.h"
-#include <stdio.h>
+#include <iostream>
+using namespace std;
 
-//Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+#include <SDL2/SDL.h>
+SDL_Window *window;
+char* window_name = "example SDL2 Vulkan application";
 
-int main( int argc, char* args[] )
+#include "vk_extern.h"
+#include "vk_function.h"
+Vulkan *vulkan;
+
+int main(int argc, char *argv[])
 {
-    //The window we'll be rendering to
-    SDL_Window* window = NULL;
-    
-    //The surface contained by the window
-    SDL_Surface* screenSurface = NULL;
+    SDL_Init(SDL_INIT_EVERYTHING);
+    window = SDL_CreateWindow(window_name,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,800,600,SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN);
 
-    //Initialize SDL
-    if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+    vulkan = new Vulkan();
+    init_vulkan_extern(vulkan);
+
+    SDL_Event event;
+    bool running = true;
+    while(running)
     {
-        printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
-    }else
-    {
-        //Create window
-        window = SDL_CreateWindow( "Snake 2023", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-        if( window == NULL )
+        while(SDL_PollEvent(&event))
         {
-            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
-        }else
-        {
-            //Get window surface
-            screenSurface = SDL_GetWindowSurface( window );
-
-            //Fill the surface white
-            SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
-            
-            //Update the surface
-            SDL_UpdateWindowSurface( window );
-
-            //Hack to get window to stay up
-            SDL_Event e; bool quit = false; while( quit == false ){ while( SDL_PollEvent( &e ) ){ if( e.type == SDL_QUIT ) quit = true; } }
+            if(event.type == SDL_QUIT)
+            {
+                running = false;
+            }
         }
-    }//Destroy window
-    SDL_DestroyWindow( window );
 
-    //Quit SDL subsystems
+        AcquireNextImage();
+
+        ResetCommandBuffer();
+        BeginCommandBuffer();
+        {
+            VkClearColorValue clear_color = {0.0f, 0.0f, 0.0f, 1.0f};
+            VkClearDepthStencilValue clear_depth_stencil = {1.0f, 0};
+            BeginRenderPass(clear_color,clear_depth_stencil);
+            {
+	        }
+
+            EndRenderPass();
+        }
+        EndCommandBuffer();
+        QueueSubmit();
+	    QueuePresent();
+    }
+
+    delete vulkan;
+    vulkan = nullptr;
+
+    SDL_DestroyWindow(window);
+    window = nullptr;
+
     SDL_Quit();
-
     return 0;
 }
