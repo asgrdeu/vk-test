@@ -3,11 +3,11 @@ set(SOURCE_FILES main.cpp)
 set(PROJECT_NAME ${PROJECT_NAME}_sdl)
 
 if (WIN32)
-    include_directories(${CMAKE_SOURCE_DIR}/src_sdl/include)
+    #include_directories(${CMAKE_SOURCE_DIR}/src_sdl/include)
 
-    link_directories(${CMAKE_SOURCE_DIR}/src_sdl/include)
+    #link_directories(${CMAKE_SOURCE_DIR}/src_sdl/include)
 
-    set(SDL2_DIR ${CMAKE_SOURCE_DIR}/src_sdl)
+    #set(SDL2_DIR ${CMAKE_SOURCE_DIR}/src_sdl)
 
     find_package(SDL2 REQUIRED CONFIG COMPONENTS SDL2main)
 endif()
