@@ -1,6 +1,9 @@
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp vk_extern.cpp vk_extern.h vk_function.cpp vk_function.h)
 
 set(PROJECT_NAME ${PROJECT_NAME}_sdl)
+
+# Vulkan
+find_package(Vulkan)
 
 if (WIN32)
     find_package(SDL2 REQUIRED CONFIG COMPONENTS SDL2main)
@@ -21,3 +24,6 @@ if (WIN32 AND TARGET SDL2::SDL2main)
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2)
+
+# Vulkan
+target_link_libraries(${PROJECT_NAME} PRIVATE vulkan)
