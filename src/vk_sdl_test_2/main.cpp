@@ -23,7 +23,6 @@ int main() {
             }
         }
     }
-
     SDL_DestroyWindow(window);
     window = nullptr;
 
