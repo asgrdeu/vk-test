@@ -3,7 +3,11 @@ using namespace std;
 
 #if defined (_WIN32)
 #include <SDL.h>
+<<<<<<< HEAD
+#else  
+=======
 #else
+>>>>>>> 7df74fa79c48ad1b32326e4a9f5dbbfcb807e581
 #include <SDL2/SDL.h>
 #endif
 
