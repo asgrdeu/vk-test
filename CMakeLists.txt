@@ -11,10 +11,4 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/build/bin)
 
 add_subdirectory(src_physx)
 add_subdirectory(src_vk)
-
-if(WIN32)
-    add_subdirectory(src_winapi)
-endif()
-
-
 add_subdirectory(src_sdl)

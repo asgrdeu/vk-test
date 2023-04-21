@@ -7,10 +7,7 @@ else
     mkdir build
 fi
 
-cmake -G "Unix Makefiles" -B ./build -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cmake --build ./build
-
-
-#-D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
+cmake -G "Unix Makefiles" -B ./build && cmake --build ./build
 
 ./build/bin/vk-test_physx
 ./build/bin/vk-test_vk
