@@ -2,7 +2,10 @@
     SDL2 Vulkan Test
 */
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 65845b636ec59e6ce2986b912033dfa65fbdfb09
 #if defined (_WIN32)
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
