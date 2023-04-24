@@ -15,7 +15,7 @@ using namespace std;
 #include <vulkan/vulkan.h>
 
 SDL_Window *window;
-const std::string WINDOW_NAME = "SDL2 Vulkan application";
+const std::string WINDOW_NAME = "vk_sdl_test_1";
 
 int main() {
     SDL_Init(SDL_INIT_EVERYTHING);

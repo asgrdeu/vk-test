@@ -1,5 +1,5 @@
 /*
-    SDL2 Vulkan Test
+    SDL2 Vulkan application
 */
 
 <<<<<<< HEAD
@@ -14,7 +14,6 @@
 #endif
 
 #include <iostream>
-
 using namespace std;
 
 #include <vulkan/vulkan.h>
