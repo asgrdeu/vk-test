@@ -1,13 +1,16 @@
 #include <SDL_log.h>
 #include <iostream>
-#include <Windows.h>
 #include <stdio.h>
-#include <io.h>
 #include <fcntl.h>
+
 using namespace std;
 
 #if defined (_WIN32)
 #include <SDL.h>
+
+#include <Windows.h>
+#include <io.h>
+
 #else
 #include <SDL2/SDL.h>
 #endif
@@ -25,11 +28,12 @@ int main(int argc, char **argv) {
     SDL_Init(SDL_INIT_EVERYTHING);
     window = SDL_CreateWindow(WINDOW_NAME.c_str(),SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,800,600,SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN);
 
-        uint32_t extensionCount = 0;
-            vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+    uint32_t extensionCount = 0;
+    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
 
-            std::cout << extensionCount << " extensions supported\n";
+    std::cout << extensionCount << " extensions supported\n";
 
+#if defined (_WIN32)
     AllocConsole();
 
     HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -45,6 +49,8 @@ int main(int argc, char **argv) {
     *stdin = *hf_in;
 
     printf("HIIIIIII");
+#endif
+
     SDL_Event event;
     bool running = true;
     while(running) {
