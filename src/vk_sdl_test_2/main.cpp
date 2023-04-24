@@ -1,5 +1,5 @@
 /*
-    SDL2 Vulkan Test
+    SDL2 Vulkan application
 */
 
 #if defined (_WIN32)
@@ -10,7 +10,6 @@
 #endif
 
 #include <iostream>
-
 using namespace std;
 
 #include <vulkan/vulkan.h>
