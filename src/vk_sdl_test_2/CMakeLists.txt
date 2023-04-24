@@ -1,7 +1,7 @@
 set(SOURCE_FILES main.cpp)
 
 set(PROJECT_NAME ${PROJECT_NAME}_vk_sdl_test_2)
-set(glm_DIR "C:/glm")
+set(CMAKE_PREFIX_PATH "C:/glm/cmake/glm")
 
 # Vulkan
 find_package(Vulkan)
@@ -12,7 +12,7 @@ endif()
 
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 
-find_package(glm REQUIRED)
+find_package(GLM REQUIRED)
 
 if(WIN32)
     add_executable(${PROJECT_NAME} ${SOURCE_FILES})
@@ -32,4 +32,4 @@ endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
 
 # GLM
-#target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm)
+target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm)
