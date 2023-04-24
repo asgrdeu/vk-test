@@ -1,33 +1,22 @@
-<<<<<<< HEAD
-#if defined (_WIN32)
-#include <windows.h>
-#include <SDL.h>
-#include <io.h>
-#include <stdio.h>
-#include <fcntl.h>
-
-=======
 /*
     SDL2 Vulkan Test
 */
 
-#include <SDL_log.h>
 #if defined (_WIN32)
 #include <SDL.h>
+#include <SDL_log.h>
+
 #include <Windows.h>
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <io.h>
->>>>>>> 684f36b6c44778c7af714fa7e426640d8c9b2510
 #else
 #include <SDL2/SDL.h>
 #endif
 
 #include <iostream>
-<<<<<<< HEAD
 #include <cstdio>
-=======
->>>>>>> 684f36b6c44778c7af714fa7e426640d8c9b2510
 using namespace std;
 
 #include <vulkan/vulkan.h>
@@ -38,10 +27,6 @@ const std::string WINDOW_NAME = "vk_sdl_test_2";
 int main(int argc, char **argv) {
     SDL_Init(SDL_INIT_EVERYTHING);
     window = SDL_CreateWindow(WINDOW_NAME.c_str(),SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,800,600,SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN);
-
-    
-
-    
 
 #if defined (_WIN32)
     // AllocConsole();
