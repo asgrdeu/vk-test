@@ -14,7 +14,7 @@ using namespace std;
 
 #include <vulkan/vulkan.h>
 
-#include <glm/glm.hpp>
+//#include <glm/glm.hpp>
 
  SDL_Window *window;
  const std::string WINDOW_NAME = "SDL2 Vulkan Test";
