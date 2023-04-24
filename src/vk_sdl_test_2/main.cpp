@@ -8,7 +8,7 @@
 #endif
 
 #include "triangl.h"
-#include <SDL2/SDL.h>
+//#include <SDL2/SDL.h>
 
 using namespace std;
 
@@ -16,8 +16,8 @@ using namespace std;
 
 #include <glm/glm.hpp>
 
-SDL_Window *window;
-const std::string WINDOW_NAME = "SDL2 Vulkan Test";
+ SDL_Window *window;
+ const std::string WINDOW_NAME = "SDL2 Vulkan Test";
 
 int main() {
     SDL_Init(SDL_INIT_EVERYTHING);
