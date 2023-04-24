@@ -12,7 +12,7 @@ endif()
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 
 if(WIN32)
-    add_executable(${PROJECT_NAME} WIN32 ${SOURCE_FILES})
+    add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 elseif(UNIX)
     add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 endif()
