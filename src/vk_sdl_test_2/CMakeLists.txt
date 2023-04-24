@@ -2,11 +2,10 @@ set(SOURCE_FILES main.cpp)
 
 set(PROJECT_NAME ${PROJECT_NAME}_vk_sdl_test_2)
 
-
 # Vulkan
 find_package(Vulkan)
 
-if (WIN32)
+if(WIN32)
     find_package(SDL2 REQUIRED CONFIG COMPONENTS SDL2main)
 endif()
 

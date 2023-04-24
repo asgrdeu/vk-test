@@ -1,3 +1,4 @@
+#include <SDL_log.h>
 #include <iostream>
 using namespace std;
 
@@ -20,6 +21,10 @@ int main(int argc, char **argv) {
     vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
 
     std::cout << extensionCount << " extensions supported\n";
+
+    SDL_Log("hello world");
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "hello world");
+
     SDL_Event event;
     bool running = true;
     while(running) {

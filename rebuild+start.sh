@@ -7,7 +7,7 @@ else
     mkdir build
 fi
 
-cmake -G "Unix Makefiles" -B ./build -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cmake --build ./build -j6
+cmake -G "Unix Makefiles" -B ./build -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cmake --build ./build -j8
 
 for app in "$@" 
 do
