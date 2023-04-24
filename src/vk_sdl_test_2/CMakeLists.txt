@@ -2,7 +2,6 @@ set(SOURCE_FILES main.cpp)
 
 set(PROJECT_NAME ${PROJECT_NAME}_vk_sdl_test_2)
 
-set(CMAKE_CONFIGURATION_TYPES Debug)
 
 # Vulkan
 find_package(Vulkan)
@@ -15,6 +14,8 @@ find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 
 if(WIN32)
     add_executable(${PROJECT_NAME} WIN32 ${SOURCE_FILES})
+    set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-g")
+    
 elseif(UNIX)
     add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 endif()
