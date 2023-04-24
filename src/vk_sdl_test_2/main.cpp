@@ -55,8 +55,6 @@ int main(int argc, char *argv[]) {
     //fclose(stdout);
 #endif
 
-    
-
     SDL_Event event;
     bool running = true;
     while(running) {
