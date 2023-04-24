@@ -13,7 +13,7 @@ using namespace std;
 
 #include <vulkan/vulkan.h>
 
-#include <glm/glm.hpp>
+//#include <glm/glm.hpp>
 
 SDL_Window *window;
 const std::string WINDOW_NAME = "SDL2 Vulkan Test";
@@ -26,9 +26,9 @@ int main() {
     vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
     cout << "extensionCount: " << extensionCount << endl;
 
-    glm::mat4 matrix;
-    glm::vec4 vec;
-    auto test = matrix * vec;
+    // glm::mat4 matrix;
+    // glm::vec4 vec;
+    // auto test = matrix * vec;
 
     SDL_Event event;
     bool running = true;

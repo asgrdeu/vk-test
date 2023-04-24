@@ -1,6 +1,7 @@
 set(SOURCE_FILES main.cpp)
 
 set(PROJECT_NAME ${PROJECT_NAME}_vk_sdl_test_2)
+set(glm_DIR "C:/glm")
 
 # Vulkan
 find_package(Vulkan)
@@ -31,4 +32,4 @@ endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
 
 # GLM
-target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm)
+#target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm)
