@@ -5,9 +5,9 @@ set(PROJECT_NAME ${PROJECT_NAME}_vk_sdl_test_2)
 # Vulkan
 find_package(Vulkan)
 
-# if(WIN32)
-#     find_package(SDL2 REQUIRED CONFIG COMPONENTS SDL2main)
-# endif()
+if(WIN32)
+    find_package(SDL2 REQUIRED CONFIG COMPONENTS SDL2main)
+endif()
 
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 
@@ -22,9 +22,9 @@ endif()
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
-# if (WIN32 AND TARGET SDL2::SDL2main)
-#     target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main)
-# endif()
+if (WIN32 AND TARGET SDL2::SDL2main)
+    target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main)
+endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2)
 
