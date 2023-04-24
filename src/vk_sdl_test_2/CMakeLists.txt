@@ -25,7 +25,5 @@ if (WIN32 AND TARGET SDL2::SDL2main)
     target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main)
 endif()
 
-
-
 # Vulkan
 target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
