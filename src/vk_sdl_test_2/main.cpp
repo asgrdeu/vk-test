@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-#if defined (_WIN32)
-#include <windows.h>
-#include <SDL.h>
-#include <io.h>
-#include <stdio.h>
-#include <fcntl.h>
-
-=======
 /*
     SDL2 Vulkan Test
 */
@@ -18,16 +9,11 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <io.h>
->>>>>>> 684f36b6c44778c7af714fa7e426640d8c9b2510
 #else
 #include <SDL2/SDL.h>
 #endif
 
 #include <iostream>
-<<<<<<< HEAD
-#include <cstdio>
-=======
->>>>>>> 684f36b6c44778c7af714fa7e426640d8c9b2510
 using namespace std;
 
 #include <vulkan/vulkan.h>
