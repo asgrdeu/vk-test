@@ -24,7 +24,7 @@ using namespace std;
 SDL_Window *window;
 const std::string WINDOW_NAME = "vk_sdl_test_2";
 
-int main(int argc, char **argv) {
+int main(int argc, char *argv[]) {
     SDL_Init(SDL_INIT_EVERYTHING);
     window = SDL_CreateWindow(WINDOW_NAME.c_str(),SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,800,600,SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN);
 
@@ -55,9 +55,7 @@ int main(int argc, char **argv) {
     //fclose(stdout);
 #endif
 
-    SDL_LogOutputFunction callback;
-    SDL_LogSetOutputFunction(callback, nullptr);
-    callback(nullptr, SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Hello world!");
+    
 
     SDL_Event event;
     bool running = true;
