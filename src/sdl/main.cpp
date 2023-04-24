@@ -1,12 +1,16 @@
+/*
+    SDL2 Vulkan application
+*/
+
+#if defined (_WIN32)
+#define SDL_MAIN_HANDLED
+#endif
+
+#include <SDL2/SDL.h>
+
 #include <iostream>
 using namespace std;
 
-#if defined (_WIN32)
-//#define SDL_MAIN_HANDLED
-#include <SDL.h>
-#else  
-#include <SDL2/SDL.h>
-#endif
 
 SDL_Window *window;
 const std::string WINDOW_NAME = "SDL2 Vulkan application";
