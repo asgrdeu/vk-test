@@ -12,6 +12,7 @@ endif()
 
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 
+# GLM
 find_package(GLM REQUIRED)
 
 if(WIN32)
