@@ -2,11 +2,11 @@ set(SOURCE_FILES main.cpp)
 
 set(PROJECT_NAME ${PROJECT_NAME}_vk_sdl_test_2)
 
-if(WIN32)
-set(CMAKE_PREFIX_PATH "C:/glm/cmake/glm")
-elseif(UNIX)
-#set(CMAKE_PREFIX_PATH "C:/glm/cmake/glm")
-endif()
+# GLM
+set(glm_DIR ${CMAKE_SOURCE_DIR}/include/glm)
+
+include_directories(${CMAKE_SOURCE_DIR}/include)
+link_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Vulkan
 find_package(Vulkan)
@@ -18,7 +18,7 @@ endif()
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 
 # GLM
-find_package(GLM REQUIRED)
+find_package(glm REQUIRED)
 
 if(WIN32)
     add_executable(${PROJECT_NAME} ${SOURCE_FILES})
