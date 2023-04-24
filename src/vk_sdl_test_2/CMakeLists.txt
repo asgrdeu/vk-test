@@ -13,18 +13,19 @@ find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 
 if(WIN32)
     add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-    set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-Xlinker/subsystem:windows")
+    set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "")
 elseif(UNIX)
     add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 endif()
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2)
 
 if (WIN32 AND TARGET SDL2::SDL2main)
     target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main)
 endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2)
+
 
 # Vulkan
 target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)

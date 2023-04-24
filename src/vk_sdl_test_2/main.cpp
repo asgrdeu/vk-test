@@ -2,29 +2,22 @@
     SDL2 Vulkan Test
 */
 
-#include <SDL_video.h>
+
 #if defined (_WIN32)
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
-#include <SDL_log.h>
-
-#include <Windows.h>
-
-#include <fcntl.h>
-#include <stdio.h>
-#include <io.h>
 #else
 #include <SDL2/SDL.h>
 #endif
 
 #include <iostream>
-#include <cstdio>
+
 using namespace std;
 
 #include <vulkan/vulkan.h>
 
 SDL_Window *window;
-const std::string WINDOW_NAME = "vk_sdl_test_2";
+const std::string WINDOW_NAME = "SDL2 Vulkan Test";
 
 int main() {
     SDL_Init(SDL_INIT_EVERYTHING);
