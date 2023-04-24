@@ -1,16 +1,20 @@
-#include <iostream>
-using namespace std;
+/*
+    SDL2 Vulkan application
+*/
 
 #if defined (_WIN32)
-#include <SDL.h>
-#else
-#include <SDL2/SDL.h>
+#define SDL_MAIN_HANDLED
 #endif
+
+#include <SDL2/SDL.h>
+
+#include <iostream>
+using namespace std;
 
 #include <vulkan/vulkan.h>
 
 SDL_Window *window;
-const std::string WINDOW_NAME = "SDL2 Vulkan application";
+const std::string WINDOW_NAME = "vk_sdl_test_1";
 
 int main() {
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -20,6 +24,7 @@ int main() {
     vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
 
     std::cout << extensionCount << " extensions supported\n";
+
     SDL_Event event;
     bool running = true;
     while(running) {
