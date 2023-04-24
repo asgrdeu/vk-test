@@ -13,7 +13,7 @@ find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 
 if(WIN32)
     add_executable(${PROJECT_NAME} WIN32 ${SOURCE_FILES})
-    set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-g")
+    set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "/subsystem:windows")
     
 elseif(UNIX)
     add_executable(${PROJECT_NAME} ${SOURCE_FILES})
