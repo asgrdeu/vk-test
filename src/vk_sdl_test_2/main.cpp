@@ -33,6 +33,8 @@ int main(int argc, char **argv) {
 
     std::cout << extensionCount << " extensions supported\n";
 
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Hello world!");
+
 #if defined (_WIN32)
     AllocConsole();
 
