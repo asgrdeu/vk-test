@@ -6,42 +6,68 @@
 #define SDL_MAIN_HANDLED
 #endif
 
+// SDL2 includes
 #include <SDL2/SDL.h>
 
-#include <iostream>
-using namespace std;
-
+// Vulkan includes
 #include <vulkan/vulkan.h>
 
-#include <istream>
-#include <math.h>
+// GLM includes
+#include <glm/glm.hpp>
 
-SDL_Window *window;
-const std::string WINDOW_NAME = "vk_sdl_test_1";
+// std includes
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class HelloTriangleApplication {
+public:
+  void run() {
+    initWindow();
+    initVulkan();
+    mainLoop();
+    cleanup();
+  }
+
+private:
+  void initWindow() {
+    SDL_Init(SDL_INIT_EVERYTHING);
+
+    window = SDL_CreateWindow(WINDOW_NAME.c_str(), SDL_WINDOWPOS_CENTERED,
+                              SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT,
+                              SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN);
+  };
+
+  void initVulkan(){};
+
+  void mainLoop() {
+    while (event.type != SDL_QUIT)
+      SDL_PollEvent(&event);
+  };
+
+  void cleanup(){
+    SDL_DestroyWindow(window);
+    window = nullptr;
+    SDL_Quit();
+  };
+
+  SDL_Window *window;
+  SDL_Event event;
+  const string WINDOW_NAME = "vk_sdl_test_1";
+  const uint32_t WIDTH = 800;
+  const uint32_t HEIGHT = 600;
+};
 
 int main() {
-  SDL_Init(SDL_INIT_EVERYTHING);
-  window = SDL_CreateWindow(WINDOW_NAME.c_str(), SDL_WINDOWPOS_CENTERED,
-                            SDL_WINDOWPOS_CENTERED, 800, 600,
-                            SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN);
+  HelloTriangleApplication app;
 
-  // uint32_t extensionCount = 0;
-  // vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-
-  // std::cout << extensionCount << " extensions supported\n";
-
-  SDL_Event event;
-  bool running = true;
-  while (running) {
-    while (SDL_PollEvent(&event)) {
-      if (event.type == SDL_QUIT) {
-        running = false;
-      }
-    }
+  try {
+    app.run();
+  } catch (const std::exception &e) {
+    std::cerr << e.what() << std::endl;
+    return EXIT_FAILURE;
   }
-  SDL_DestroyWindow(window);
-  window = nullptr;
-
-  SDL_Quit();
-  return 0;
+  
+  return EXIT_SUCCESS;
 }
