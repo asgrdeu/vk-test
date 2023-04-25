@@ -13,6 +13,10 @@ using namespace std;
 
 #include <vulkan/vulkan.h>
 
+#include <include/glm/ext.hpp>
+#include <istream>
+#include <math.h>
+
 SDL_Window *window;
 const std::string WINDOW_NAME = "vk_sdl_test_1";
 

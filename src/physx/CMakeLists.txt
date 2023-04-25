@@ -1,4 +1,4 @@
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp foo1.h foo2.h)
 
 set(PROJECT_NAME ${PROJECT_NAME}_physx)
 

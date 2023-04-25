@@ -3,6 +3,7 @@
 */
 
 #include <stdlib.h>
+
 #if defined (_WIN32)
 #define SDL_MAIN_HANDLED
 #endif
@@ -14,7 +15,8 @@ using namespace std;
 
 #include <vulkan/vulkan.h>
 
-//#include <glm/glm.hpp>
+#include <glm/glm.hpp>
+
 
  SDL_Window *window;
  const std::string WINDOW_NAME = "SDL2 Vulkan Test";
