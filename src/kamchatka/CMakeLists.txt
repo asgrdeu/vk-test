@@ -1,6 +1,6 @@
 set(SOURCE_FILES main.cpp)
 
-set(PROJECT_NAME ${PROJECT_NAME}_vk_sdl_test_2)
+set(PROJECT_NAME ${PROJECT_NAME}_kamchatka)
 
 # GLM
 set(glm_DIR ${CMAKE_SOURCE_DIR}/include/glm)
