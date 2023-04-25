@@ -25,7 +25,15 @@
 #include <iostream>
 #include <vector>
 
+// Debug layers
+#include <cstring>
+
 using namespace std;
+
+const std::vector<const char *> validationLayers = {
+    "VK_LAYER_KHRONOS_validation"};
+
+#define DEBUG
 
 class VulkanTriangle {
 public:
@@ -69,7 +77,7 @@ private:
     window = nullptr;
     SDL_Quit();
   }
-
+  // Vulkan instance
   void createInstance() {
     VkApplicationInfo appInfo = {};
     appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -94,13 +102,12 @@ private:
     uint32_t extensionCount = 0;
     vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
     std::vector<VkExtensionProperties> extensions(extensionCount);
-    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
+    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount,
+                                           extensions.data());
     std::cout << "Available extensions: \n" << std::endl;
     for (const auto &extension : extensions) {
-        std::cout << '\t' << extension.extensionName << '\n';
+      std::cout << '\t' << extension.extensionName << '\n';
     }
-  
-  
   }
   // Vulkan
 
@@ -113,9 +120,40 @@ private:
   const uint32_t WIDTH = 800;
   const uint32_t HEIGHT = 600;
   const string ENGINE_NAME = "Kamchatka";
+
+#ifdef DEBUG
+  const bool enableValidationLayers = true;
+#else
+  const bool enableValidationLayers = false;
+#endif
+
+  bool checkValidationLayerSupport() {
+    uint32_t layerCount;
+    vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+    std::vector<VkLayerProperties> availableLayers(layerCount);
+    vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+    for (const char *layerName : validationLayers) {
+      bool layerFound = false;
+      for (const auto &layerProperties : availableLayers) {
+        if (strcmp(layerName, layerProperties.layerName) == 0) {
+          layerFound = true;
+          break;
+        }
+      }
+
+      if (!layerFound) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   // GLM
 };
 
+// main
 int main() {
   VulkanTriangle app;
   try {
