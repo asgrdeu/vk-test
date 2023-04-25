@@ -29,9 +29,6 @@ int main() {
 
     TriangleApplication app;
 
-<<<<<<< HEAD
-    
-=======
     try {
         app.run();
     } catch (const std::exception &e) {
@@ -39,7 +36,6 @@ int main() {
         return EXIT_FAILURE;
     }
     //return EXIT_SUCCESS;
->>>>>>> refs/remotes/origin/dev
     SDL_Event event;
     bool running = true;
     while(running) {

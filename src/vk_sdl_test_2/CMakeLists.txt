@@ -17,12 +17,8 @@ endif()
 
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 
-<<<<<<< HEAD
-#find_package(glm REQUIRED)
-=======
 # GLM
 find_package(glm REQUIRED)
->>>>>>> refs/remotes/origin/dev
 
 if(WIN32)
     add_executable(${PROJECT_NAME} ${SOURCE_FILES})
@@ -42,4 +38,4 @@ endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
 
 # GLM
-#target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm)
+target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm)
