@@ -2,6 +2,14 @@ set(SOURCE_FILES main.cpp)
 
 set(PROJECT_NAME ${PROJECT_NAME}_vk_sdl_test_1)
 
+# GLM
+set(glm_DIR ${CMAKE_SOURCE_DIR}/include/glm)
+
+include_directories(${CMAKE_SOURCE_DIR}/include)
+link_directories(${CMAKE_SOURCE_DIR}/include)
+
+find_package(glm REQUIRED)
+
 # Vulkan
 find_package(Vulkan)
 
@@ -28,3 +36,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2)
 
 # Vulkan
 target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
+
+# GLM
+target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm)
