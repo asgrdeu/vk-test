@@ -30,6 +30,7 @@ int main() {
     glm::vec4 vec;
     auto test = matrix * vec;
 
+    
     SDL_Event event;
     bool running = true;
     while(running) {
