@@ -55,16 +55,7 @@ private:
         800, 600, SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
   }
 
-  void initVulkan() {
-    createInstance();
-    uint32_t sdlExtensionCount = 0;
-    const char **sdlExtensions;
-    SDL_Vulkan_GetInstanceExtensions(window, &sdlExtensionCount, nullptr);
-    SDL_Vulkan_GetInstanceExtensions(window, &sdlExtensionCount, sdlExtensions);
-    for (uint32_t i = 0; i < sdlExtensionCount; i++) {
-      cout << sdlExtensions[i] << endl;
-    }
-  }
+  void initVulkan() { createInstance(); }
 
   void mainLoop() {
     while (event.type != SDL_QUIT)
@@ -79,6 +70,34 @@ private:
   }
   // Vulkan instance
   void createInstance() {
+
+    uint32_t sdlExtensionCount = 0;
+    const char **sdlExtensions;
+
+    SDL_Vulkan_GetInstanceExtensions(window, &sdlExtensionCount, nullptr);
+    SDL_Vulkan_GetInstanceExtensions(window, &sdlExtensionCount, sdlExtensions);
+
+    for (uint32_t i = 0; i < sdlExtensionCount; i++) {
+      cout << sdlExtensions[i] << endl;
+    }
+
+    uint32_t extensionCount = 0;
+    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+
+    std::vector<VkExtensionProperties> extensions(extensionCount);
+    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount,
+                                           extensions.data());
+
+    std::cout << "Available extensions: \n" << std::endl;
+
+    for (const auto &extension : extensions) {
+      std::cout << '\t' << extension.extensionName << '\n';
+    }
+
+    if (enableValidationLayers && !checkValidationLayerSupport()) {
+        throw std::runtime_error("validation layers requested, but not available!");
+    }
+
     VkApplicationInfo appInfo = {};
     appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     appInfo.pApplicationName = "Vulkan SDL2 Triangle";
@@ -97,16 +116,6 @@ private:
 
     if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
       throw std::runtime_error("failed to create instance!");
-    }
-
-    uint32_t extensionCount = 0;
-    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-    std::vector<VkExtensionProperties> extensions(extensionCount);
-    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount,
-                                           extensions.data());
-    std::cout << "Available extensions: \n" << std::endl;
-    for (const auto &extension : extensions) {
-      std::cout << '\t' << extension.extensionName << '\n';
     }
   }
   // Vulkan
