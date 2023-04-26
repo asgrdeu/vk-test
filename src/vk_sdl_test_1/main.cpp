@@ -22,7 +22,7 @@
 
 using namespace std;
 
-#define SDL_VK_INFO
+// #define SDL_VK_INFO
 
 class HelloTriangleApplication {
 public:
@@ -96,8 +96,8 @@ private:
     }
 
     sdlExtensionNames.resize(sdlExtensionCount);
-    if (SDL_Vulkan_GetInstanceExtensions(window, &sdlExtensionCount,
-                                         sdlExtensionNames.data()) != SDL_TRUE) {
+    if (SDL_Vulkan_GetInstanceExtensions(
+            window, &sdlExtensionCount, sdlExtensionNames.data()) != SDL_TRUE) {
       throw std::runtime_error("failed to get SDL extension list");
     }
 
@@ -174,7 +174,7 @@ private:
   // Vulkan
   VkInstance instance;
   uint32_t sdlExtensionCount;
-  vector<const char*> sdlExtensionNames;
+  vector<const char *> sdlExtensionNames;
   uint32_t extensionPropertyCount;
   vector<VkExtensionProperties> extensionProperties;
 
