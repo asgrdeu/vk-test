@@ -5,7 +5,7 @@ int sum(int a, int b) {
 }
 
 int main() {
-    std::cout << sum(1, 2) << std::endl;
+    std::cout << sum(50, 2) << std::endl;
     return 0;
 }
 

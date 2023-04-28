@@ -1,10 +1,14 @@
 #include <iostream>
 
-int sum(int a, int b) {
-    return a + b;
+using namespace std;
+
+int sum(int a) {
+    return a + a;
 }
 
 int main() {
-    std::cout << sum(2, 2) << std::endl;
+    int a;
+    cin >> a;
+    cout << sum(a) << endl;
     return 0;
 }
