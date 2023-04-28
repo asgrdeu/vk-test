@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.26 FATAL_ERROR)
 
 get_filename_component(PROJECT_NAME "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
 
@@ -9,5 +9,4 @@ project(${PROJECT_NAME} VERSION 0.0.1 DESCRIPTION "C++ Basic Reactive Concepts" 
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/build/bin)
 
-add_subdirectory(src_physx)
-add_subdirectory(src_vk)
+add_subdirectory(src)

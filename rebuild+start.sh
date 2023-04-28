@@ -7,11 +7,10 @@ else
     mkdir build
 fi
 
-#cmake -G "Unix Makefiles" -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++ #-D "CMAKE_MAKE_PROGRAM:PATH=C:/MinGW-32/bin/make.exe"
+cmake -G "Unix Makefiles" -B ./build -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && cmake --build ./build -j8
 
-cmake -G "Unix Makefiles" -B ./build && cmake --build ./build
-
-#-D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
-
-./build/bin/vk-test_physx
-./build/bin/vk-test_vk
+for app in "$@" 
+do
+    echo "Starting ./build/bin/vk-test_$app";
+    ./build/bin/vk-test_$app
+done
