@@ -2,7 +2,7 @@
 #add_subdirectory(sdl)
 if(UNIX)
 add_subdirectory(vk_sdl_test_1)
-elseif(WIN32)
 add_subdirectory(kamchatka)
+elseif(WIN32)
 add_subdirectory(altay)
 endif()

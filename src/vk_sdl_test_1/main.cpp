@@ -22,7 +22,7 @@
 
 using namespace std;
 
-// #define SDL_VK_INFO
+//#define SDL_VK_INFO
 
 class HelloTriangleApplication {
 public:
@@ -124,7 +124,7 @@ private:
       }
     }
 
-    if (validExtensionCount == sdlExtensionCount) {
+    if (validExtensionCount < sdlExtensionCount) {
       throw std::runtime_error("not all SDL extensions supported!");
     }
 
