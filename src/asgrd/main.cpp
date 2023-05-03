@@ -22,7 +22,8 @@
 
 using namespace std;
 
-// #define SDL_VK_INFO
+// #define VK_INFO
+#define VK_DEBUG
 
 class HelloTriangleApplication {
 public:
@@ -42,45 +43,58 @@ private:
     window = SDL_CreateWindow(WINDOW_NAME.c_str(), SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT,
                               SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN);
-  };
+  }
 
-  void initVulkan() { createInstance(); };
+  void initVulkan() {
+    if (createInstance() != VK_SUCCESS) {
+      throw std::runtime_error("failed to create instance");
+    }
+  }
 
   void mainLoop() {
     while (event.type != SDL_QUIT)
       SDL_PollEvent(&event);
-  };
+  }
 
   void cleanup() {
     vkDestroyInstance(instance, nullptr);
     SDL_DestroyWindow(window);
     window = nullptr;
     SDL_Quit();
-  };
+  }
 
-  void createInstance() {
-#ifdef SDL_VK_INFO
-    cout << "Creating instance" << endl;
-    cout << "Finding Vulkan supported extensions" << endl;
+  // TODO: degug info print fix
+
+  VkResult createInstance() {
+    if (initVulkanLayerValidation() != VK_SUCCESS) {
+      throw std::runtime_error("failed to init Vulkan layer validation");
+    }
+
+#ifdef VK_INFO
+    cout << "Finding Vulkan extensions" << endl;
 #endif
 
-    if (vkEnumerateInstanceExtensionProperties(nullptr, &extensionPropertyCount,
-                                               nullptr) != VK_SUCCESS) {
+    if (vkEnumerateInstanceExtensionProperties(
+            nullptr, &extensionPropertiesCount, nullptr) != VK_SUCCESS) {
       throw std::runtime_error("failed to get extension count");
     }
 
-    extensionProperties.resize(extensionPropertyCount);
-    if (vkEnumerateInstanceExtensionProperties(nullptr, &extensionPropertyCount,
-                                               extensionProperties.data()) !=
+#ifdef VK_INFO
+    cout << "Extension count: " << extensionPropertiesCount << endl;
+
+#endif
+
+    extensionProperties.resize(extensionPropertiesCount);
+    if (vkEnumerateInstanceExtensionProperties(
+            nullptr, &extensionPropertiesCount, extensionProperties.data()) !=
         VK_SUCCESS) {
       throw std::runtime_error("failed to get extension properties");
     }
 
-#ifdef SDL_VK_INFO
-    cout << "Extension count: " << extensionPropertyCount << endl;
+#ifdef VK_INFO
     cout << "Extension list:" << endl;
 
-    for (uint32_t i = 0; i < extensionPropertyCount; i++) {
+    for (uint32_t i = 0; i < extensionPropertiesCount; i++) {
       cout << i << " - "
            << "vkInstanceExtensionName: "
            << extensionProperties[i].extensionName << "; "
@@ -101,7 +115,7 @@ private:
       throw std::runtime_error("failed to get SDL extension list");
     }
 
-#ifdef SDL_VK_INFO
+#ifdef VK_INFO
     cout << "Extension count: " << sdlExtensionCount << endl;
     cout << "Extension list:" << endl;
 
@@ -128,10 +142,8 @@ private:
       throw std::runtime_error("not all SDL extensions supported!");
     }
 
-#ifdef SDL_VK_INFO
-    else {
-      cout << "All SDL extensions supported" << endl;
-    }
+#ifdef VK_INFO
+    cout << "All SDL extensions supported" << endl;
 #endif
 
     VkApplicationInfo applicationInfo = {};
@@ -148,35 +160,117 @@ private:
     instanceCreateInfo.pNext = nullptr;
     instanceCreateInfo.flags = 0;
     instanceCreateInfo.pApplicationInfo = &applicationInfo;
+
+#ifdef VK_DEBUG
+    instanceCreateInfo.enabledLayerCount =
+        static_cast<uint32_t>(validationLayers.size());
+    instanceCreateInfo.ppEnabledLayerNames = validationLayers.data();
+#else
     instanceCreateInfo.enabledLayerCount = 0;
     instanceCreateInfo.ppEnabledLayerNames = nullptr;
+#endif
+
     instanceCreateInfo.enabledExtensionCount = sdlExtensionCount;
     instanceCreateInfo.ppEnabledExtensionNames = sdlExtensionNames.data();
 
+#ifdef VK_INFO
+    cout << "Creating Vulkan instance" << endl;
+#endif
+
     if (vkCreateInstance(&instanceCreateInfo, nullptr, &instance) !=
         VK_SUCCESS) {
-      throw std::runtime_error("failed to create instance!");
+      return VK_ERROR_INITIALIZATION_FAILED;
     }
 
-#ifdef SDL_VK_INFO
-    else {
-      cout << "vkCreateInstance successful" << endl;
-    }
+#ifdef VK_INFO
+    cout << "Successfuly to create Vulkan instance" << endl;
 #endif
+
+    return VK_SUCCESS;
+  }
+
+  VkResult initVulkanLayerValidation() {
+#ifdef VK_INFO
+    cout << "Finding supported validation layers" << endl;
+#endif
+
+    if (vkEnumerateInstanceLayerProperties(&layerPropertiesCount, nullptr) !=
+        VK_SUCCESS) {
+      throw std::runtime_error("failed to get layer count");
+    }
+
+#ifdef VK_INFO
+    cout << "Layer count: " << layerPropertiesCount << endl;
+#endif
+
+    layerProperties.resize(layerPropertiesCount);
+    if (vkEnumerateInstanceLayerProperties(
+            &layerPropertiesCount, layerProperties.data()) != VK_SUCCESS) {
+      throw std::runtime_error("failed to get layer properties");
+    }
+
+#ifdef VK_INFO
+    cout << "Layer properties list:" << endl;
+
+    for (uint32_t i = 0; i < layerPropertiesCount; i++) {
+      cout << i << " - " << layerProperties[i].layerName << ";"
+           << layerProperties[i].specVersion << endl;
+    }
+
+    cout << "Requested validation layers count: " << validationLayers.size()
+         << endl;
+    cout << "Requested validation layers list:" << endl;
+
+    for (uint32_t i = 0; i < validationLayers.size(); i++) {
+      cout << i << " - " << validationLayers[i] << endl;
+    }
+
+    cout << "Checking requested validation layers support" << endl;
+#endif
+
+    uint32_t availableLayerCount = 0;
+    for (auto &layer : validationLayers) {
+      for (auto &layerProperty : layerProperties) {
+        if (strcmp(layer, layerProperty.layerName) == 0) {
+          availableLayerCount++;
+        }
+      }
+    }
+
+    if (availableLayerCount != validationLayers.size()) {
+      return VK_ERROR_LAYER_NOT_PRESENT;
+    }
+
+#ifdef VK_INFO
+    cout << "All requested validation layers supported" << endl;
+#endif
+
+    return VK_SUCCESS;
   }
 
   // SDL2 Window
   SDL_Window *window;
   SDL_Event event;
+
+  uint32_t sdlExtensionCount;
+  vector<const char *> sdlExtensionNames;
+
+  // Window dimensions
   const uint32_t WIDTH = 800;
   const uint32_t HEIGHT = 600;
 
   // Vulkan
   VkInstance instance;
-  uint32_t sdlExtensionCount;
-  vector<const char *> sdlExtensionNames;
-  uint32_t extensionPropertyCount;
+
+  uint32_t extensionPropertiesCount;
   vector<VkExtensionProperties> extensionProperties;
+
+  uint32_t layerPropertiesCount;
+  vector<VkLayerProperties> layerProperties;
+
+  const vector<const char *> validationLayers = {
+      "VK_LAYER_KHRONOS_validation",
+  };
 
   // Engine
   const string ENGINE_NAME = "Vulkan Engine";
