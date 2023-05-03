@@ -124,7 +124,7 @@ private:
       }
     }
 
-    if (validExtensionCount == sdlExtensionCount) {
+    if (validExtensionCount < sdlExtensionCount) {
       throw std::runtime_error("not all SDL extensions supported!");
     }
 
