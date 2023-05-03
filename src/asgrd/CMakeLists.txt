@@ -1,6 +1,4 @@
-set(SOURCE_FILES main.cpp)
-
-set(PROJECT_NAME ${PROJECT_NAME}_vk_sdl_test_1)
+cmake_path(GET CMAKE_CURRENT_SOURCE_DIR FILENAME PROJECT_NAME)
 
 # GLM
 set(glm_DIR ${CMAKE_SOURCE_DIR}/include/glm)
@@ -18,6 +16,15 @@ if (WIN32)
 endif()
 
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
+
+file(GLOB SOURCE_FILES *.cpp)
+file(GLOB HEADER_FILES *.h)
+
+message("List of founded source files:")
+
+foreach(FILE ${SOURCE_FILES})
+    message(${FILE})
+endforeach()
 
 if(WIN32)
     add_executable(${PROJECT_NAME} ${SOURCE_FILES})
