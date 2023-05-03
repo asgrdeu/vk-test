@@ -1,6 +1,6 @@
 set(SOURCE_FILES main.cpp)
 
-set(PROJECT_NAME ${PROJECT_NAME}_kamchatka)
+cmake_path(GET CMAKE_CURRENT_SOURCE_DIR FILENAME PROJECT_NAME)
 
 # GLM
 set(glm_DIR ${CMAKE_SOURCE_DIR}/include/glm)
