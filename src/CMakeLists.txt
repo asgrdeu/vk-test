@@ -4,6 +4,7 @@ get_filename_component(PROJECT_NAME "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
 
 set(CMAKE_C_COMPILER "clang")
 set(CMAKE_CXX_COMPILER "clang++")
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(${PROJECT_NAME} VERSION 0.0.1 DESCRIPTION "C++ Basic Reactive Concepts" LANGUAGES C CXX)
 

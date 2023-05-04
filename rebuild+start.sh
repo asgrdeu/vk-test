@@ -20,7 +20,6 @@ if [ $projects ]; then
     cmake   -S src \
             -G "Unix Makefiles" \
             -B build \
-            -DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
             -DENABLE_PROJECT_LIST=$projects \
             && \
     cmake   --build \
