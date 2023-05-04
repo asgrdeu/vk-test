@@ -16,10 +16,24 @@ do
     esac
 done
 
-cmake -G "Unix Makefiles" -B ./build -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DENABLE_PROJECT_LIST=$projects && cmake --build ./build -j8
+if [ $projects ]; then
+    cmake   -S src \
+            -G "Unix Makefiles" \
+            -B build \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
+            -DENABLE_PROJECT_LIST=$projects \
+            && \
+    cmake   --build \
+            build \
+            -j ${nproc}
+else
+    echo "No projects to build specified"
+fi
 
-for app in "$run" 
-do
-    echo "Starting ./build/bin/$app";
-    ./build/bin/$app
-done
+if [ $run ]; then
+    for app in "$run" 
+    do
+        echo "Starting ./build/bin/$app";
+        ./build/bin/$app
+    done
+fi
