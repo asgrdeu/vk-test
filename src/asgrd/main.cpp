@@ -22,12 +22,8 @@
 
 using namespace std;
 
-<<<<<<< HEAD:src/vk_sdl_test_1/main.cpp
-//#define SDL_VK_INFO
-=======
-// #define VK_INFO
+#define VK_INFO
 #define VK_DEBUG
->>>>>>> refs/remotes/origin/dev:src/asgrd/main.cpp
 
 class HelloTriangleApplication {
 public:

@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-#add_subdirectory(physx)
-#add_subdirectory(sdl)
-if(UNIX)
-add_subdirectory(vk_sdl_test_1)
-add_subdirectory(kamchatka)
-elseif(WIN32)
-add_subdirectory(altay)
-endif()
-=======
 file(GLOB PROJECT_PATH_LIST LIST_DIRECTORIES true [a-z]*)
 
 foreach(PROJECT_PATH ${PROJECT_PATH_LIST})
@@ -20,4 +10,3 @@ foreach(PROJECT_PATH ${PROJECT_PATH_LIST})
         endif()
     endforeach()
 endforeach()
->>>>>>> refs/remotes/origin/dev
