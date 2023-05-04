@@ -1,10 +1,9 @@
 #!/bin/bash
 
-if [ ! -d "./build" ]; then
+if [ ! -d "build" ]; then
     mkdir build
 else
-    rm -rf ./build
-    rm -rf ./.cache
+    rm -rf build
     mkdir build
 fi
 
@@ -17,8 +16,7 @@ do
 done
 
 if [ $projects ]; then
-    cmake   -S src \
-            -G "Unix Makefiles" \
+    cmake   -G "Unix Makefiles" \
             -B build \
             -DENABLE_PROJECT_LIST=$projects \
             && \
@@ -32,7 +30,7 @@ fi
 if [ $run ]; then
     for app in "$run" 
     do
-        echo "Starting ./build/bin/$app";
-        ./build/bin/$app
+        echo "Starting bin/$app";
+        bin/$app
     done
 fi
