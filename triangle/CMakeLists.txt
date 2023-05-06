@@ -9,8 +9,7 @@ endif()
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 
 add_executable(${PROJECT_NAME}
-        src/main.cpp
-        src/version.cpp
+        triangle.cpp
         )
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)

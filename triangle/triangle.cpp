@@ -22,7 +22,7 @@
 
 using namespace std;
 
-#define VK_INFO
+// #define VK_INFO
 #define VK_DEBUG
 
 class HelloTriangleApplication {
@@ -59,16 +59,15 @@ private:
   void cleanup() {
     vkDestroyInstance(instance, nullptr);
     SDL_DestroyWindow(window);
-    window = nullptr;
     SDL_Quit();
   }
 
-  // TODO: degug info print fix
-
   VkResult createInstance() {
+#ifdef VK_DEBUG
     if (initVulkanLayerValidation() != VK_SUCCESS) {
       throw std::runtime_error("failed to init Vulkan layer validation");
     }
+#endif
 
 #ifdef VK_INFO
     cout << "Finding Vulkan extensions" << endl;
@@ -81,7 +80,6 @@ private:
 
 #ifdef VK_INFO
     cout << "Extension count: " << extensionPropertiesCount << endl;
-
 #endif
 
     extensionProperties.resize(extensionPropertiesCount);
@@ -100,7 +98,19 @@ private:
            << extensionProperties[i].extensionName << "; "
            << "Ext. version: " << extensionProperties[i].specVersion << endl;
     }
+#endif
 
+    // Enabled extensions validation
+    uint32_t enabledExtensionCount = 0;
+    for (auto &extension : extensionProperties)
+      for (auto &enabledExtension : enabledExtensionNames)
+        if (strcmp(extension.extensionName, enabledExtension) == 0)
+          enabledExtensionCount++;
+
+    if (enabledExtensionCount != enabledExtensionNames.size())
+      throw std::runtime_error("not all Vulkan enabled extensions supported!");
+
+#ifdef VK_INFO
     cout << "Finding SDL supported extensions" << endl;
 #endif
 
@@ -129,16 +139,16 @@ private:
 #endif
 
     // Extensions validation
-    uint32_t validExtensionCount = 0;
+    uint32_t validSdlExtensionCount = 0;
     for (auto &extension : extensionProperties) {
       for (auto &sdlExtension : sdlExtensionNames) {
         if (strcmp(extension.extensionName, sdlExtension) == 0) {
-          validExtensionCount++;
+          validSdlExtensionCount++;
         }
       }
     }
 
-    if (validExtensionCount < sdlExtensionCount) {
+    if (validSdlExtensionCount < sdlExtensionCount) {
       throw std::runtime_error("not all SDL extensions supported!");
     }
 
@@ -162,16 +172,27 @@ private:
     instanceCreateInfo.pApplicationInfo = &applicationInfo;
 
 #ifdef VK_DEBUG
+    vector<const char *> allEnabledExtensionNames;
+
+    for (auto &extension : enabledExtensionNames)
+      allEnabledExtensionNames.push_back(extension);
+
+    for (auto &extension : sdlExtensionNames)
+      allEnabledExtensionNames.push_back(extension);
+
     instanceCreateInfo.enabledLayerCount =
         static_cast<uint32_t>(validationLayers.size());
     instanceCreateInfo.ppEnabledLayerNames = validationLayers.data();
+    instanceCreateInfo.enabledExtensionCount =
+        static_cast<uint32_t>(allEnabledExtensionNames.size());
+    instanceCreateInfo.ppEnabledExtensionNames =
+        allEnabledExtensionNames.data();
 #else
     instanceCreateInfo.enabledLayerCount = 0;
     instanceCreateInfo.ppEnabledLayerNames = nullptr;
-#endif
-
     instanceCreateInfo.enabledExtensionCount = sdlExtensionCount;
     instanceCreateInfo.ppEnabledExtensionNames = sdlExtensionNames.data();
+#endif
 
 #ifdef VK_INFO
     cout << "Creating Vulkan instance" << endl;
@@ -248,6 +269,15 @@ private:
     return VK_SUCCESS;
   }
 
+  static VKAPI_ATTR VkBool32 VKAPI_CALL
+  debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+                VkDebugUtilsMessageTypeFlagsEXT messageType,
+                const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
+                void *pUserData) {
+    cout << "Validation layer: " << pCallbackData->pMessage << endl;
+    return VK_FALSE;
+  }
+
   // SDL2 Window
   SDL_Window *window;
   SDL_Event event;
@@ -272,6 +302,9 @@ private:
       "VK_LAYER_KHRONOS_validation",
   };
 
+  const vector<const char *> enabledExtensionNames = {
+      VK_EXT_DEBUG_UTILS_EXTENSION_NAME};
+
   // Engine
   const string ENGINE_NAME = "Vulkan Engine";
 
@@ -279,11 +312,11 @@ private:
   const string APPLICATION_NAME = "Hello Triangle";
 };
 
-#include "version.h"
-
-int main() {
+int main(int argc, char **argv) {
+#ifdef VK_INFO
   print_version_info();
-  
+#endif
+
   HelloTriangleApplication app;
 
   try {
