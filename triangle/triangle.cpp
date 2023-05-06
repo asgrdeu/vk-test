@@ -2,6 +2,8 @@
     SDL2 Vulkan application
 */
 
+#include <cstddef>
+#include <vulkan/vulkan_core.h>
 #if defined(_WIN32)
 #define SDL_MAIN_HANDLED
 #endif
@@ -269,6 +271,26 @@ private:
     return VK_SUCCESS;
   }
 
+  VkResult initDebugMessenger() {
+    VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfoExt;
+    debugUtilsMessengerCreateInfoExt.sType =
+        VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+    debugUtilsMessengerCreateInfoExt.pNext = nullptr;
+    debugUtilsMessengerCreateInfoExt.flags = 0;
+    debugUtilsMessengerCreateInfoExt.messageSeverity =
+        VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
+        VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+        VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+    debugUtilsMessengerCreateInfoExt.messageType =
+        VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+        VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+        VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+    debugUtilsMessengerCreateInfoExt.pfnUserCallback = debugCallback;
+    debugUtilsMessengerCreateInfoExt.pUserData = nullptr;
+
+    return VK_SUCCESS;
+  }
+
   static VKAPI_ATTR VkBool32 VKAPI_CALL
   debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
                 VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -297,6 +319,8 @@ private:
 
   uint32_t layerPropertiesCount;
   vector<VkLayerProperties> layerProperties;
+
+  VkDebugUtilsMessengerEXT debugUtilsMessengerExt;
 
   const vector<const char *> validationLayers = {
       "VK_LAYER_KHRONOS_validation",
