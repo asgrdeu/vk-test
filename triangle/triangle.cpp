@@ -2,8 +2,6 @@
     SDL2 Vulkan application
 */
 
-#include <cstddef>
-#include <vulkan/vulkan_core.h>
 #if defined(_WIN32)
 #define SDL_MAIN_HANDLED
 #endif
@@ -337,10 +335,6 @@ private:
 };
 
 int main(int argc, char **argv) {
-#ifdef VK_INFO
-  print_version_info();
-#endif
-
   HelloTriangleApplication app;
 
   try {
