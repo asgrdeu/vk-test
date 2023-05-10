@@ -16,8 +16,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE include)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX .app)
-
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2)
 
 if (WIN32 AND TARGET SDL2::SDL2main)
