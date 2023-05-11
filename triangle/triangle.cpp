@@ -24,7 +24,7 @@
 using namespace std;
 
 // #define VK_INFO
-#define VK_DEBUG
+// #define VK_DEBUG
 
 #ifdef VK_DEBUG
 VkResult createDebugUtilsMessengerExt(

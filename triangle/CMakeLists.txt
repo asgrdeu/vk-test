@@ -10,6 +10,9 @@ find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 
 add_executable(${PROJECT_NAME}
         triangle.cpp
+        instance.cpp
+        sdl_impl.cpp
+        application.cpp
         )
 
 target_include_directories(${PROJECT_NAME} PRIVATE third_party)
