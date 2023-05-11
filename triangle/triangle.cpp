@@ -2,6 +2,7 @@
     SDL2 Vulkan application
 */
 
+#include <vulkan/vulkan_core.h>
 #if defined(_WIN32)
 #define SDL_MAIN_HANDLED
 #endif
@@ -25,6 +26,30 @@ using namespace std;
 // #define VK_INFO
 #define VK_DEBUG
 
+#ifdef VK_DEBUG
+VkResult createDebugUtilsMessengerExt(
+    VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
+    const VkAllocationCallbacks *pAllocator,
+    VkDebugUtilsMessengerEXT *pDebugMessenger) {
+  auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(
+      instance, "vkCreateDebugUtilsMessengerEXT");
+
+  if (func != nullptr)
+    return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+  else
+    return VK_ERROR_EXTENSION_NOT_PRESENT;
+}
+
+void destroyDebugUtilsMessengerExt(
+    VkInstance instance, VkDebugUtilsMessengerEXT debugUtilsMessengerExt,
+    const VkAllocationCallbacks *pAllocator) {
+  auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(
+      instance, "vkDestroyDebugUtilsMessengerEXT");
+  if (func != nullptr)
+    func(instance, debugUtilsMessengerExt, pAllocator);
+}
+#endif
+
 class HelloTriangleApplication {
 public:
   void run() {
@@ -46,9 +71,13 @@ private:
   }
 
   void initVulkan() {
-    if (createInstance() != VK_SUCCESS) {
+    if (createInstance() != VK_SUCCESS)
       throw std::runtime_error("failed to create instance");
-    }
+
+#ifdef VK_DEBUG
+    if (initDebugUtilsMessengerExt() != VK_SUCCESS)
+      throw std::runtime_error("failed to init debug messenger");
+#endif
   }
 
   void mainLoop() {
@@ -57,6 +86,10 @@ private:
   }
 
   void cleanup() {
+#ifdef VK_DEBUG
+    destroyDebugUtilsMessengerExt(instance, debugUtilsMessengerExt, nullptr);
+#endif
+
     vkDestroyInstance(instance, nullptr);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -167,11 +200,16 @@ private:
 
     VkInstanceCreateInfo instanceCreateInfo = {};
     instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-    instanceCreateInfo.pNext = nullptr;
     instanceCreateInfo.flags = 0;
     instanceCreateInfo.pApplicationInfo = &applicationInfo;
 
 #ifdef VK_DEBUG
+    VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo = {};
+    fillDebugUtilsMessengerCreateInfoExt(debugUtilsMessengerCreateInfo);
+
+    instanceCreateInfo.pNext =
+        (VkDebugUtilsMessengerCreateInfoEXT *)&debugUtilsMessengerCreateInfo;
+
     vector<const char *> allEnabledExtensionNames;
 
     for (auto &extension : enabledExtensionNames)
@@ -188,6 +226,7 @@ private:
     instanceCreateInfo.ppEnabledExtensionNames =
         allEnabledExtensionNames.data();
 #else
+    instanceCreateInfo.pNext = nullptr;
     instanceCreateInfo.enabledLayerCount = 0;
     instanceCreateInfo.ppEnabledLayerNames = nullptr;
     instanceCreateInfo.enabledExtensionCount = sdlExtensionCount;
@@ -269,8 +308,17 @@ private:
     return VK_SUCCESS;
   }
 
-  VkResult initDebugMessenger() {
+#ifdef VK_DEBUG
+  VkResult initDebugUtilsMessengerExt() {
     VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfoExt;
+    fillDebugUtilsMessengerCreateInfoExt(debugUtilsMessengerCreateInfoExt);
+    return createDebugUtilsMessengerExt(instance,
+                                        &debugUtilsMessengerCreateInfoExt,
+                                        nullptr, &debugUtilsMessengerExt);
+  }
+
+  void fillDebugUtilsMessengerCreateInfoExt(
+      VkDebugUtilsMessengerCreateInfoEXT &debugUtilsMessengerCreateInfoExt) {
     debugUtilsMessengerCreateInfoExt.sType =
         VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
     debugUtilsMessengerCreateInfoExt.pNext = nullptr;
@@ -285,8 +333,6 @@ private:
         VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
     debugUtilsMessengerCreateInfoExt.pfnUserCallback = debugCallback;
     debugUtilsMessengerCreateInfoExt.pUserData = nullptr;
-
-    return VK_SUCCESS;
   }
 
   static VKAPI_ATTR VkBool32 VKAPI_CALL
@@ -297,6 +343,7 @@ private:
     cout << "Validation layer: " << pCallbackData->pMessage << endl;
     return VK_FALSE;
   }
+#endif
 
   // SDL2 Window
   SDL_Window *window;
@@ -318,7 +365,9 @@ private:
   uint32_t layerPropertiesCount;
   vector<VkLayerProperties> layerProperties;
 
+#ifdef VK_DEBUG
   VkDebugUtilsMessengerEXT debugUtilsMessengerExt;
+#endif
 
   const vector<const char *> validationLayers = {
       "VK_LAYER_KHRONOS_validation",
@@ -339,8 +388,8 @@ int main(int argc, char **argv) {
 
   try {
     app.run();
-  } catch (const std::exception &e) {
-    std::cerr << e.what() << std::endl;
+  } catch (const exception &e) {
+    cerr << e.what() << endl;
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
